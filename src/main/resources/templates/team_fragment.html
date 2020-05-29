@@ -1,0 +1,78 @@
+<th:block th:fragment="team_fragment">
+    <div class="card text-center team-card" th:id="'team-' + ${team.id}" th:data-id="${team.id}">
+        <h5 th:text="${team.name}" th:id="'team-name-' + ${team.id}"
+            th:class="${team.isCurrent()} ? 'card-header current' : 'card-header'"></h5>
+        <ul class="list-group list-group-flush">
+            <li th:each="player, iter : ${team.players}" th:text="${player.name}" th:id="'player-' + ${player.id}" th:data-id="${player.id}"
+                th:class="${player.isCurrent()} ? 'list-group-item current' : 'list-group-item'"></li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block th:fragment="two_teams_fragment">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</th:block>
+
+<th:block th:fragment="three_teams_fragment">
+    <div class="row">
+        <div class="col-md-4">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[2]})"></th:block>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="four_teams_fragment">
+    <div class="row">
+        <div class="col-md-3">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[2]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="team_fragment :: team_fragment(team=${game.teams[3]})"></th:block>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="new_fragment">
+    <div class="col-md-3">
+        <form>
+            <div class="form-group">
+                <label th:for="'input-team-' + ${team}">Team name</label>
+                <input type="text" class="form-control" th:id="'input-team-' + ${team}" th:placeholder="'Team ' + ${team}">
+            </div>
+            <div class="form-group">
+                <label th:for="'input-player-' + ${team} + '-1'">Players</label>
+                <input type="text" class="form-control" th:id="'input-player-' + ${team} + '-1'" placeholder="Player 1">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" th:id="'input-player-' + ${team} + '-2'" placeholder="Player 2">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" th:id="'input-player-' + ${team} + '-3'" placeholder="Player 3">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" th:id="'input-player-' + ${team} + '-4'" placeholder="Player 4">
+            </div>
+        </form>
+    </div>
+</th:block>

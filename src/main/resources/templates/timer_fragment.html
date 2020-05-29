@@ -1,0 +1,58 @@
+<th:block th:fragment="timer_fragment">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="input-group mb-3 top-15-px">
+                <div class="input-group-prepend">
+                    <button class="btn btn-warning btn-start" type="button" id="btn-start">GO</button>
+                </div>
+                <input type="text" class="form-control form-control-lg score" placeholder="" disabled value="00:00:00" id="timer">
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</th:block>
+
+<th:block th:fragment="two_teams_score_fragment">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</th:block>
+
+<th:block th:fragment="three_teams_score_fragment">
+    <div class="row">
+        <div class="col-md-4">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-4">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]})"></th:block>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="four_teams_score_fragment">
+    <div class="row">
+        <div class="col-md-3">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]})"></th:block>
+        </div>
+        <div class="col-md-3">
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[3]})"></th:block>
+        </div>
+    </div>
+</th:block>

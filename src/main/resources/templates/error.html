@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Games</title>
+    <th:block th:replace="common_header"></th:block>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>ERROR</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordred table-striped">
+                        <tr>
+                            <td>Date</td>
+                            <td th:text="${timestamp}"/>
+                        </tr>
+                        <tr>
+                            <td>Path</td>
+                            <td th:text="${path}"/>
+                        </tr>
+                        <tr>
+                            <td>Error</td>
+                            <td th:text="${error}"/>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td th:text="${status}"/>
+                        </tr>
+                        <tr>
+                            <td>Message</td>
+                            <td th:text="${message}"/>
+                        </tr>
+                        <tr>
+                            <td>Exception</td>
+                            <td th:text="${exception}"/>
+                        </tr>
+                        <tr>
+                            <td>Trace</td>
+                            <td>
+                                <pre th:text="${trace}"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

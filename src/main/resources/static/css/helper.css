@@ -1,0 +1,12 @@
+.score {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.top-15-px {
+    margin-top: 15px;
+}
+
+.current {
+    font-weight: 900;
+}
