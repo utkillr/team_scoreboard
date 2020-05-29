@@ -30,7 +30,7 @@ CREATE TABLE "player" (
 
 
 
-ALTER TABLE "game" ADD CONSTRAINT "game_fk0" FOREIGN KEY ("last_team_id") REFERENCES "team"("id");
+ALTER TABLE "game" ADD CONSTRAINT "game_fk0" FOREIGN KEY ("current_team_id") REFERENCES "team"("id");
 ALTER TABLE "team" ADD CONSTRAINT "team_fk0" FOREIGN KEY ("game_id") REFERENCES "game"("id");
-ALTER TABLE "team" ADD CONSTRAINT "team_fk1" FOREIGN KEY ("last_player_id") REFERENCES "player"("id");
+ALTER TABLE "team" ADD CONSTRAINT "team_fk1" FOREIGN KEY ("current_player_id") REFERENCES "player"("id");
 ALTER TABLE "player" ADD CONSTRAINT "player_fk0" FOREIGN KEY ("team_id") REFERENCES "team"("id");
