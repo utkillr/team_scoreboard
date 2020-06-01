@@ -1,5 +1,6 @@
 package com.localhost.scoreboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.localhost.scoreboard.util.TimestampSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,6 +58,16 @@ public class Game {
     @JsonProperty("currentTeamId")
     @JsonIgnoreProperties({"game", "score", "players", "currentPlayer", "current"})
     private Team currentTeam;
+
+    @ManyToMany
+    @JoinTable(
+            name = "word_used",
+            joinColumns = { @JoinColumn(name = "game_id") },
+            inverseJoinColumns = { @JoinColumn(name = "word_id") }
+    )
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<Word> usedWords;
 
     @JsonProperty("currentPlayer")
     @JsonIgnoreProperties({"name", "team", "current"})

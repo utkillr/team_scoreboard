@@ -28,9 +28,26 @@ CREATE TABLE "player" (
     OIDS=FALSE
 );
 
+CREATE TABLE "word" (
+	"id" serial NOT NULL,
+	"word" TEXT NOT NULL,
+	CONSTRAINT word_pk PRIMARY KEY ("id")
+) WITH (
+    OIDS=FALSE
+);
+
+CREATE TABLE "word_used" (
+	"game_id" int NOT NULL,
+	"word_id" int NOT NULL,
+	CONSTRAINT word_used_pk PRIMARY KEY ("game_id", "word_id")
+) WITH (
+    OIDS=FALSE
+);
 
 
 ALTER TABLE "game" ADD CONSTRAINT "game_fk0" FOREIGN KEY ("current_team_id") REFERENCES "team"("id");
 ALTER TABLE "team" ADD CONSTRAINT "team_fk0" FOREIGN KEY ("game_id") REFERENCES "game"("id");
 ALTER TABLE "team" ADD CONSTRAINT "team_fk1" FOREIGN KEY ("current_player_id") REFERENCES "player"("id");
 ALTER TABLE "player" ADD CONSTRAINT "player_fk0" FOREIGN KEY ("team_id") REFERENCES "team"("id");
+ALTER TABLE "word_used" ADD CONSTRAINT "word_used_fk0" FOREIGN KEY ("game_id") REFERENCES "game"("id");
+ALTER TABLE "word_used" ADD CONSTRAINT "word_used_fk1" FOREIGN KEY ("word_id") REFERENCES "word"("id");

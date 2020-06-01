@@ -34,7 +34,7 @@ public class Team {
             foreignKey = @ForeignKey(name = "team_fk0")
     )
     @EqualsAndHashCode.Exclude
-    @JsonIgnoreProperties({"teams", "currentTeam", "currentPlayer", "isActive"})
+    @JsonIgnoreProperties({"teams", "startDate", "endDate", "currentTeam", "currentPlayer", "usedWords", "isActive"})
     private Game game;
 
     @OneToMany(
