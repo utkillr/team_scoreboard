@@ -1,5 +1,6 @@
 package com.localhost.scoreboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -37,6 +38,13 @@ public class Player {
     )
     @JsonProperty("name")
     private String name;
+
+    @Column(
+            name = "hash",
+            nullable = false
+    )
+    @JsonIgnore
+    private String hash;
 
     @JsonProperty("current")
     public boolean isCurrent() {

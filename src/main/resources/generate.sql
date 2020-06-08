@@ -3,6 +3,7 @@ CREATE TABLE "game" (
 	"start_date" TIMESTAMP,
 	"end_date" TIMESTAMP,
 	"current_team_id" INT,
+	"running" BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT game_pk PRIMARY KEY ("id")
 ) WITH (
     OIDS=FALSE
@@ -14,6 +15,7 @@ CREATE TABLE "team" (
 	"score" INT NOT NULL,
 	"game_id" INT NOT NULL,
 	"current_player_id" INT,
+	"is_lobby" BOOLEAN NOT NULL DEFAULT false,
 	CONSTRAINT result_pk PRIMARY KEY ("id")
 ) WITH (
     OIDS=FALSE
@@ -22,6 +24,7 @@ CREATE TABLE "team" (
 CREATE TABLE "player" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL,
+	"hash" TEXT NOT NULL,
 	"team_id" INT NOT NULL,
 	CONSTRAINT player_pk PRIMARY KEY ("id")
 ) WITH (

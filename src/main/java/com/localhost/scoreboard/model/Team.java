@@ -1,5 +1,6 @@
 package com.localhost.scoreboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -64,8 +65,18 @@ public class Team {
     @JsonProperty("score")
     private Integer score;
 
+    @Column(
+            name = "is_lobby"
+    )
+    @JsonProperty("isLobby")
+    private Boolean isLobby;
+
     @JsonProperty("current")
     public boolean isCurrent() {
         return game.getCurrentTeam() != null && game.getCurrentTeam().getId() == id;
+    }
+
+    public boolean isEmpty() {
+        return players.isEmpty();
     }
 }

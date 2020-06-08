@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scoreboard</title>
+    <th:block th:replace="common_header"></th:block>
+    <script th:src="@{js/new_player.js}"></script>
+</head>
+<body>
+<section>
+    <div class="container" style="margin-top:15px">
+        <div class="row" id="game" th:data-id="${game.id}">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label for="input-player">Your name</label>
+                        <input type="text" class="form-control" id="input-player" placeholder="Your name">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="login-btn">Start!</button>
+        </div>
+    </div>
+</section>
+</body>
+</html>

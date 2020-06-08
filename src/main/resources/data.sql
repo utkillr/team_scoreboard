@@ -6,20 +6,20 @@ INSERT INTO team(name, score, game_id) VALUES
     ('Hufflepuff', 0, 1),
     ('Ravenclaw', 0, 1);
 
-INSERT INTO player(name, team_id) VALUES
-    ('Harry Potter', 1),
-    ('Hermione Granger', 1),
-    ('Ronald Weasley', 1),
-    ('Oliver Wood', 1),
+INSERT INTO player(name, team_id, hash) VALUES
+    ('Harry Potter', 1, '1'),
+    ('Hermione Granger', 1, '2'),
+    ('Ronald Weasley', 1, '3'),
+    ('Oliver Wood', 1, '4'),
 
-    ('Gregory Goyle', 2),
-    ('Vincent Crabbe', 2),
-    ('Draco Lucius Malfoy', 2),
+    ('Gregory Goyle', 2, '5'),
+    ('Vincent Crabbe', 2, '6'),
+    ('Draco Lucius Malfoy', 2, '7'),
 
-    ('Cedric Diggory', 3),
-    ('Justin Finch-Fletchley', 3),
+    ('Cedric Diggory', 3, '8'),
+    ('Justin Finch-Fletchley', 3, '9'),
 
-    ('Luna Lovegood', 4);
+    ('Luna Lovegood', 4, '10');
 
 
 
@@ -30,18 +30,18 @@ INSERT INTO team(name, score, game_id) VALUES
     ('Slytherin', 0, 2),
     ('Hufflepuff', 0, 2);
 
-INSERT INTO player(name, team_id) VALUES
-    ('Harry Potter', 5),
-    ('Hermione Granger', 5),
-    ('Ronald Weasley', 5),
-    ('Oliver Wood', 5),
+INSERT INTO player(name, team_id, hash) VALUES
+    ('Harry Potter', 5, '1'),
+    ('Hermione Granger', 5, '2'),
+    ('Ronald Weasley', 5, '3'),
+    ('Oliver Wood', 5, '4'),
 
-    ('Gregory Goyle', 6),
-    ('Vincent Crabbe', 6),
-    ('Draco Lucius Malfoy', 6),
+    ('Gregory Goyle', 6, '5'),
+    ('Vincent Crabbe', 6, '6'),
+    ('Draco Lucius Malfoy', 6, '7'),
 
-    ('Cedric Diggory', 7),
-    ('Justin Finch-Fletchley', 7);
+    ('Cedric Diggory', 7, '8'),
+    ('Justin Finch-Fletchley', 7, '9');
 
 
 
@@ -51,15 +51,15 @@ INSERT INTO team(name, score, game_id) VALUES
     ('Gryffindor', 0, 3),
     ('Slytherin', 0, 3);
 
-INSERT INTO player(name, team_id) VALUES
-    ('Harry Potter', 8),
-    ('Hermione Granger', 8),
-    ('Ronald Weasley', 8),
-    ('Oliver Wood', 8),
+INSERT INTO player(name, team_id, hash) VALUES
+    ('Harry Potter', 8, '1'),
+    ('Hermione Granger', 8, '2'),
+    ('Ronald Weasley', 8, '3'),
+    ('Oliver Wood', 8, '4'),
 
-    ('Gregory Goyle', 9),
-    ('Vincent Crabbe', 9),
-    ('Draco Lucius Malfoy', 9);
+    ('Gregory Goyle', 9, '5'),
+    ('Vincent Crabbe', 9, '6'),
+    ('Draco Lucius Malfoy', 9, '7');
 
 INSERT INTO word(word) VALUES
     ('Accio'),

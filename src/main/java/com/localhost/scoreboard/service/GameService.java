@@ -45,6 +45,7 @@ public class GameService {
         Game game = new Game();
         game = gameRepository.save(game);
         game.setTeams(new ArrayList<>());
+        game.setRunning(false);
         int teamIndex = 1;
         for (TeamDAO teamDAO : gameDAO.getTeams()) {
             if (teamDAO.getName() == null || teamDAO.getName().isEmpty()) {
@@ -80,8 +81,10 @@ public class GameService {
     }
 
     public Game save(Game game) {
-        for (Team team : game.getTeams()) {
-            teamRepository.save(team);
+        if (game.getAllTeams() != null) {
+            for (Team team : game.getAllTeams()) {
+                teamRepository.save(team);
+            }
         }
         return gameRepository.save(game);
     }

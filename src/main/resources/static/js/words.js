@@ -1,20 +1,3 @@
-function getWords() {
-    count = 10;
-    $.ajax({
-        method: "GET",
-        url: 'api/word?game=' + $("#words").attr("data-id") + '&count=' + count,
-        success: function(words) {
-            html = ""
-            for (i = 0; i < words.length; i++) {
-                html += $("#template").html().replace(/{{id}}/g, words[i]["id"]).replace(/{{word}}/g, words[i].word);
-            }
-            $("#words-container").html(html)
-        },
-        error: function() {
-            alert("Can't get words");
-        }
-    });
-}
 
 function useWords() {
     game = $("#words").attr("data-id");
@@ -47,7 +30,3 @@ function useWords() {
         });
     }
 }
-
-$(document).ready(() => {
-    $("#submit-btn").on("click", useWords);
-})

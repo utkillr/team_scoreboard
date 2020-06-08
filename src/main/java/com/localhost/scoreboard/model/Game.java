@@ -12,7 +12,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -39,6 +41,12 @@ public class Game {
     @JsonSerialize(using = TimestampSerializer.class)
     private Timestamp endDate;
 
+    @Column(
+            name = "running"
+    )
+    @JsonProperty("running")
+    private Boolean running;
+
     @OneToMany(
             mappedBy = "game",
             fetch = FetchType.LAZY,
@@ -46,8 +54,26 @@ public class Game {
             orphanRemoval = true
     )
     @EqualsAndHashCode.Exclude
-    @JsonIgnoreProperties({"game"})
+    @JsonIgnore
     private List<Team> teams;
+
+    @JsonProperty("teams")
+    @JsonIgnoreProperties({"game"})
+    public List<Team> getTeams() {
+        return startDate == null ?
+                teams.stream().filter(team -> !team.getIsLobby()).sorted(Comparator.comparing(Team::getName)).collect(Collectors.toList()) :
+                teams.stream().filter(team -> !team.getIsLobby() && !team.isEmpty()).sorted(Comparator.comparing(Team::getName)).collect(Collectors.toList());
+    }
+
+    @JsonIgnore
+    public Team getLobby() {
+        return teams.stream().filter(Team::getIsLobby).findAny().orElse(null);
+    }
+
+    @JsonIgnore
+    public List<Team> getAllTeams() {
+        return teams;
+    }
 
     @ManyToOne
     @JoinColumn(
@@ -72,7 +98,7 @@ public class Game {
     @JsonProperty("currentPlayer")
     @JsonIgnoreProperties({"name", "team", "current"})
     public Player getCurrentPlayer() {
-        return currentTeam.getCurrentPlayer();
+        return currentTeam == null ? null : currentTeam.getCurrentPlayer();
     }
 
     @JsonProperty("isActive")

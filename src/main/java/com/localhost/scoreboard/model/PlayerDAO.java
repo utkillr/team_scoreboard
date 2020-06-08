@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PlayerDAO {
-    int id;
+    private int id;
     private String name;
+    private String hash;
 }

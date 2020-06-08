@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scoreboard</title>
+    <th:block th:replace="common_header"></th:block>
+    <script th:src="@{js/lobby.js}"></script>
+</head>
+<body>
+    <section>
+        <div class="container" style="margin-top:15px">
+            <div class="row" id="game" th:data-id="${game.id}">
+                <th:block th:each="team, iter : ${game.teams}">
+                    <div class="col-md-3">
+                        <div class="card text-center team-card" th:id="'team-' + ${team.id}" th:data-id="${team.id}">
+                            <div class="form-group">
+                                <input type="text" class="form-control" th:id="'team-name-' + ${team.id}" placeholder="Team 1" value="Team 1">
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block btn-join" th:data-id="${team.id}">Join</button>
+                            <ul class="list-group list-group-flush"></ul>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </section>
+
+    <li class="list-group-item" hidden id="template"></li>
+</body>
+</html>

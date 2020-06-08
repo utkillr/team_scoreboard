@@ -3,6 +3,7 @@
 <head>
     <title>Scoreboard</title>
     <th:block th:replace="common_header"></th:block>
+    <script th:src="@{js/words.js}"></script>
     <script th:src="@{js/game.js}"></script>
 </head>
 <body>
@@ -22,12 +23,32 @@
             </th:block>
 
             <th:block th:replace="timer_fragment :: timer_fragment"></th:block>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="card text-center word-card" id="words" th:data-id="${game.id}" hidden>
+                        <ul class="list-group list-group-flush" id="words-container">
+                        </ul>
+                        <button type="button" class="btn btn-primary btn-lg btn-block btn-submit" id="submit-btn" hidden>Submit</button>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
             <!--
             <div class="row">
                 <small>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></small>
             </div>
             -->
         </div>
+
+        <li class="list-group-item" hidden id="template">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="word-{{id}}" data-id="{{id}}">
+                <label class="form-check-label" for="word-{{id}}">{{word}}</label>
+            </div>
+        </li>
     </section>
 </body>
 </html>
