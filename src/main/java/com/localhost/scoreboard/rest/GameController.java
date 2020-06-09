@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/game")
@@ -52,11 +53,11 @@ public class GameController {
         }
         // Empty if lobby
         if (game.getStartDate() != null) {
-            game.getTeams().sort(Comparator.comparingInt(Team::getId));
+            gameService.updateNextPlayer(game, false);
             for (Team team : game.getTeams()) {
                 team.getPlayers().sort(Comparator.comparingInt(Player::getId));
             }
-            gameService.updateNextPlayer(game, false);
+            System.out.println("Sorted teams: " + game.getTeams().stream().map(t -> t.getName() + "(" + t.getId() + ")").collect(Collectors.joining(", ", "[", "]")));
         }
         return game;
     }

@@ -61,8 +61,8 @@ public class Game {
     @JsonIgnoreProperties({"game"})
     public List<Team> getTeams() {
         return startDate == null ?
-                teams.stream().filter(team -> !team.getIsLobby()).sorted(Comparator.comparing(Team::getName)).collect(Collectors.toList()) :
-                teams.stream().filter(team -> !team.getIsLobby() && !team.isEmpty()).sorted(Comparator.comparing(Team::getName)).collect(Collectors.toList());
+                teams.stream().filter(team -> !team.getIsLobby()).sorted(Comparator.comparing(Team::getId)).collect(Collectors.toList()) :
+                teams.stream().filter(team -> !team.getIsLobby() && !team.isEmpty()).sorted(Comparator.comparing(Team::getId)).collect(Collectors.toList());
     }
 
     @JsonIgnore

@@ -10,20 +10,16 @@ function useWords() {
         });
     });
     if (words.length == 0) {
-        getWords();
         return;
     } else {
         console.log(words)
         $.ajax({
             method: "PATCH",
-            url: "api/word",
+            url: "api/word?hash=" + getCookie("hash"),
             headers: {
                 'Content-Type': "application/json"
             },
             data: JSON.stringify(words),
-            success: function(data) {
-                getWords();
-            },
             error: function() {
                 alert("Can't use words");
             }

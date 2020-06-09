@@ -15,7 +15,7 @@ function reload() {
             for (i = 0; i < game["teams"].length; i++) {
                 team = game["teams"][i];
                 if (team["isLobby"]) continue;
-                $("#team-name-" + team["id"]).val(team["name"])
+                if (!isAdmin()) $("#team-name-" + team["id"]).val(team["name"])
                 for (j = 0; j < team["players"].length; j++) {
                     player = team["players"][j];
                     ul = $("#team-" + team["id"] + " ul");
@@ -29,7 +29,7 @@ function reload() {
             }
         },
         error: function() {
-            alert("Can't get game results");
+            alert("Can't get lobby status");
         }
     });
 }
@@ -84,6 +84,8 @@ $(document).ready(() => {
             game["teams"].push(team);
         });
 
+
+
         $.ajax({
             method: "POST",
             url: "api/game/" + game["id"] + "/start?hash=" + getCookie("hash"),
@@ -93,7 +95,7 @@ $(document).ready(() => {
             data: JSON.stringify(game),
             success: function(data) {
                 if (data == 0) alert("You're not an admin to do this");
-                else window.location.href = "game/" + data;
+                else window.location.href = "game/" + data + "?hash=" + getCookie("hash");
             },
             error: function() {
                 alert("Can't start game");

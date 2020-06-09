@@ -9,7 +9,7 @@ $(document).ready(() => {
             },
             success: function(data) {
                 if (data == 0) alert("You're not an admin to do this");
-                else window.location.href = "game/" + data + "/admin_lobby"
+                else window.location.href = "game/" + data + "?hash=" + getCookie("hash");
             },
             error: function() {
                 alert("Can't create game");

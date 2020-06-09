@@ -67,6 +67,9 @@ public class TeamService {
     }
 
     public Team update(Team team, TeamDAO teamDAO) {
+        System.out.println("Updating team " + team.getId());
+        System.out.println("Old name: " + team.getName());
+        System.out.println("New name: " + teamDAO.getName());
         if (teamDAO.getName() != null && !teamDAO.getName().isEmpty()) {
             team.setName(teamDAO.getName());
         }

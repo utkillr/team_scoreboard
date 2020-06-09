@@ -1,10 +1,10 @@
 <th:block th:fragment="score_fragment">
     <div class="input-group mb-3 top-15-px" th:id="'scoreboard-' + ${team.id}" th:data-id="${team.id}">
-        <div class="input-group-prepend">
+        <div th:if="${admin} == true" class="input-group-prepend">
             <button class="btn btn-danger btn-dec" type="button" th:id="'score-dec-' + ${team.id}" th:data-id="${team.id}">-1</button>
         </div>
         <input type="text" class="form-control score" placeholder="" disabled th:value="${team.score}" th:id="'score-' + ${team.id}">
-        <div class="input-group-append">
+        <div th:if="${admin} == true" class="input-group-append">
             <button class="btn btn-success btn-inc" type="button" th:id="'score-inc-' + ${team.id}" th:data-id="${team.id}">+1</button>
         </div>
     </div>
@@ -14,10 +14,10 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-4">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-4">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -26,13 +26,13 @@
 <th:block th:fragment="three_teams_score_fragment">
     <div class="row">
         <div class="col-md-4">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-4">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-4">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]}, admin=${admin})"></th:block>
         </div>
     </div>
 </th:block>
@@ -40,16 +40,16 @@
 <th:block th:fragment="four_teams_score_fragment">
     <div class="row">
         <div class="col-md-3">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[0]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-3">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[1]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-3">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[2]}, admin=${admin})"></th:block>
         </div>
         <div class="col-md-3">
-            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[3]})"></th:block>
+            <th:block th:replace="score_fragment :: score_fragment(team=${game.teams[3]}, admin=${admin})"></th:block>
         </div>
     </div>
 </th:block>

@@ -51,14 +51,15 @@ public class DefaultController {
     @ResponseStatus(value = HttpStatus.OK)
     public String getGame(Model model, @PathVariable(name = "id") Integer gameId, @RequestParam(name = "hash", required = false) String hash) throws NotFoundException {
         Game game = gameController.getGame(gameId);
+        Boolean admin = false;
+        if (AdminUtilities.isAdmin(hash)) admin = true;
         model.addAttribute("game", game);
+        model.addAttribute("admin", admin);
         if (game.getStartDate() != null) {
-            int count = game.getTeams().size();
-            model.addAttribute("count", count);
+            model.addAttribute("count", game.getTeams().size());
             return "game";
         } else {
-            if (AdminUtilities.isAdmin(hash)) return "admin_lobby";
-            else return "lobby";
+            return "lobby";
         }
     }
 

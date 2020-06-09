@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -70,7 +71,13 @@ public class GameService {
 
     public Game update(Game game, GameDAO gameDAO) {
         updateNextPlayer(game, gameDAO.isNext());
-        for (Team team : game.getTeams()) {
+
+        System.out.println("Game: " + game.getId());
+        System.out.println("Teams: " + game.getAllTeams().stream().map(team -> Integer.toString(team.getId())).collect(Collectors.joining(", ", "[", "]")));
+        System.out.println("GameDAO: " + gameDAO.getId());
+        System.out.println("Teams: " + gameDAO.getTeams().stream().map(team -> Integer.toString(team.getId())).collect(Collectors.joining(", ", "[", "]")));
+
+        for (Team team : game.getAllTeams()) {
             for (TeamDAO teamDAO : gameDAO.getTeams()) {
                 if (team.getId() == teamDAO.getId()) {
                     teamService.update(team, teamDAO);

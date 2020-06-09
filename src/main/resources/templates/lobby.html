@@ -13,13 +13,19 @@
                     <div class="col-md-3">
                         <div class="card text-center team-card" th:id="'team-' + ${team.id}" th:data-id="${team.id}">
                             <div class="form-group">
-                                <input type="text" class="form-control" th:id="'team-name-' + ${team.id}" placeholder="Team 1" value="Team 1">
+                                <input th:if="${admin} == true" type="text" class="form-control" th:id="'team-name-' + ${team.id}" placeholder="Team 1" value="Team 1">
+                                <input th:if="${admin} == false" type="text" class="form-control" th:id="'team-name-' + ${team.id}" placeholder="Team 1" value="Team 1" disabled>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block btn-join" th:data-id="${team.id}">Join</button>
                             <ul class="list-group list-group-flush"></ul>
+                            <button th:if="${admin} == false" type="button" class="btn btn-primary btn-lg btn-block btn-join" th:data-id="${team.id}">Join</button>
                         </div>
                     </div>
                 </th:block>
+            </div>
+            <div th:if="${admin} == true" class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-start">Start</button>
+                </div>
             </div>
         </div>
     </section>

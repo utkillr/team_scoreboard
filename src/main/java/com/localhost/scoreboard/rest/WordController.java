@@ -64,7 +64,11 @@ public class WordController {
     public void useWords(@RequestBody List<WordUsedDAO> wordUsedDAOs, @RequestParam(name = "hash", required = false) String hash) throws NotFoundException, IllegalArgumentException {
         if (!AdminUtilities.isAdmin(hash)) return;
 
-        if (wordUsedDAOs == null || wordUsedDAOs.size() == 0) return;
+        if (wordUsedDAOs == null || wordUsedDAOs.isEmpty()) {
+            System.out.println("Words are null? " + (wordUsedDAOs == null));
+            System.out.println("Words are empty? " + (wordUsedDAOs == null ? "N/A" : wordUsedDAOs.isEmpty()));
+            return;
+        }
 
         if (wordUsedDAOs.stream().map(WordUsedDAO::getGameId).distinct().count() != 1) {
             throw new IllegalArgumentException("Can't update words for more than one game");

@@ -57,8 +57,12 @@ public class WordService {
     }
 
     public void reinitWords(Game game) throws NotFoundException {
+        System.out.println("Reinit words for game " + game.getId());
+        System.out.println("Words before: [" + currentWords.get(game.getId()).stream().map(Word::getWord).collect(Collectors.joining(", ")) + "]");
         currentWords.remove(game.getId());
+        System.out.println("Words deleted? " + currentWords.containsKey(game.getId()));
         initCurrentWords(game);
+        System.out.println("Words after: [" + currentWords.get(game.getId()).stream().map(Word::getWord).collect(Collectors.joining(", ")) + "]");
     }
 
     public List<Word> getCurrentWords(Game game) {

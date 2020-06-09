@@ -8,7 +8,7 @@ function showWords() {
                 hideWords();
                 return;
             };
-            $("#words").removeAttr("hidden");
+            $("#words").prop("hidden", false);
             ul = $("#words ul");
             ul.html("");
             for (i = 0; i < words.length; i++) {
@@ -18,7 +18,7 @@ function showWords() {
                 li.find("input").attr("data-id", word["id"]);
                 li.find("label").attr("for", "word-" + word["id"]);
                 li.find("label").text(word["word"]);
-                li.removeAttr("hidden");
+                li.prop("hidden", false);
                 li.appendTo(ul);
             }
             if (isAdmin($("#game").attr("data-id"))) {
@@ -33,8 +33,8 @@ function showWords() {
 }
 
 function hideWords() {
-    $("#words").attr("hidden", true);
-    $("#submit-btn").attr("hidden", true);
+    $("#words").prop("hidden", true);
+    $("#submit-btn").prop("hidden", true);
     $("#words ul").html("");
 }
 
@@ -43,7 +43,16 @@ function reload() {
         method: "GET",
         url: 'api/game/' + $("#game").attr("data-id"),
         success: function(game) {
-            if ((game["active"] || isAdmin) && $("#words ul").html() == "") showWords();
+            admin = isAdmin();
+            current = isCurrentAndRunning(game["id"], true);
+
+            if (admin) {
+                if ($("#words ul").children().length == 0) showWords();
+                if (game["running"]) return;
+            } else {
+                if (current) showWords();
+                else hideWords();
+            }
             for (i = 0; i < game["teams"].length; i++) {
                 team = game["teams"][i];
                 $("#team-name-" + team["id"]).text(team["name"])
@@ -64,10 +73,6 @@ function reload() {
                 }
             }
             setCurrent($("#game").attr("data-id"));
-
-            // Let's update words
-            showWords();
-
         },
         error: function() {
             alert("Can't get game results");
@@ -120,10 +125,8 @@ function setInactive() {
     $("#btn-start").prop('disabled', true);
 }
 
-var playing = false;
 function setCurrent(game) {
-    current = isCurrent(game);
-    if (current && !playing) {
+    if (isCurrentAndRunning(game, false)) {
         setActive();
     } else {
         setInactive();
@@ -149,7 +152,6 @@ $(document).ready(() => {
     });
 
     $("button.btn-start").on("click", function() {
-        playing = true;
         timer = $("#timer");
         button = $(this);
         button.prop('disabled', true);
@@ -201,7 +203,6 @@ $(document).ready(() => {
         }, 123);
     });
 
-    // TODO Update score!
     $("button.btn-submit").on("click", function() {
         $.ajax({
             method: "PATCH",
@@ -209,10 +210,11 @@ $(document).ready(() => {
             headers: {
                 'Content-Type': "application/json"
             },
+            async: false,
             success: function() {
-                playing = false;
                 useWords();
                 update();
+                hideWords();
             },
             error: function() {
                 alert("Can't deactivate game");

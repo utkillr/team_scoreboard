@@ -1,12 +1,13 @@
 function setCookie(key, value, hours) {
+    cleanCookie();
     var d = new Date();
     d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = key + "=" + value + ";" + expires // + ";path=/";
 }
 
-function removeCookie(key) {
-    document.cookie = key + "=" + ";" + expires // + ";path=/";
+function cleanCookie() {
+    document.cookie = "";
 }
 
 function getCookie(key) {
@@ -47,11 +48,11 @@ function getPlayerId(game) {
     return res;
 }
 
-function isCurrent(game) {
+function isCurrentAndRunning(game, running) {
     res = false;
     $.ajax({
         method: "GET",
-        url: 'api/player/' + getCookie("hash") + '/current?game=' + game,
+        url: 'api/player/' + getCookie("hash") + '/current?game=' + game + '&running=' + running,
         headers: {
             'Content-Type': "application/json"
         },
@@ -60,7 +61,7 @@ function isCurrent(game) {
             res = data;
         },
         error: function() {
-            alert("Can't get current");
+            alert("Can't get current and running");
         }
     });
     return res;

@@ -60,12 +60,12 @@ public class PlayerController {
 
     @GetMapping(value = {"/{hash}/current", "/{hash}/current/"})
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Boolean isCurrent(@PathVariable(name = "hash") String hash, @RequestParam(name = "game") Integer gameId) throws NotFoundException {
+    public @ResponseBody Boolean isCurrent(@PathVariable(name = "hash") String hash, @RequestParam(name = "game") Integer gameId, @RequestParam(name = "running", required = false) Boolean running) throws NotFoundException {
         Game game = gameService.findById(gameId);
         if (game == null) {
             throw new NotFoundException("Can't find the game with id = " + gameId);
         }
-        return AdminUtilities.isCurrent(game, hash);
+        return AdminUtilities.isCurrent(game, hash) && (running == null || running.equals(game.getRunning()));
     }
 
     @GetMapping(value = {"/{hash}/admin", "/{hash}/admin/"})
