@@ -2,7 +2,6 @@ package com.localhost.scoreboard.service;
 
 import com.localhost.scoreboard.model.*;
 import com.localhost.scoreboard.repository.GameRepository;
-import com.localhost.scoreboard.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +13,11 @@ import java.util.List;
 public class GameService {
 
     private GameRepository gameRepository;
-    private TeamRepository teamRepository;
     private TeamService teamService;
 
     @Autowired
     public void setGameRepository(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
-    }
-
-    @Autowired
-    public void setTeamRepository(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
     }
 
     @Autowired
@@ -81,7 +74,7 @@ public class GameService {
 
     public Game save(Game game) {
         for (Team team : game.getTeams()) {
-            teamRepository.save(team);
+            teamService.save(team);
         }
         return gameRepository.save(game);
     }

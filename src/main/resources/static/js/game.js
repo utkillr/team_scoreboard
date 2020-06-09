@@ -4,7 +4,7 @@ function reload() {
         url: 'api/game/' + $("#game").attr("data-id"),
         success: function(game) {
             for (i = 0; i < game["teams"].length; i++) {
-                team = game["teams"][i];
+                var team = game["teams"][i];
                 $("#team-name-" + team["id"]).text(team["name"])
                 $("#score-" + team["id"]).val(team["score"])
                 if (team["current"]) {
@@ -13,7 +13,7 @@ function reload() {
                     $("#team-name-" + team["id"]).removeClass("current");
                 }
                 for (j = 0; j < team["players"].length; j++) {
-                    player = team["players"][j];
+                    var player = team["players"][j];
                     $("#player-" + player["id"]).text(player["name"])
                     if (player["current"]) {
                         $("#player-" + player["id"]).addClass("current");
@@ -34,12 +34,12 @@ function update() {
     game["id"] = $("#game").attr("data-id");
     game["teams"] = [];
     $("#game").find("div.team-card").each(function() {
-        team = {};
+        var team = {};
         team["id"] = $(this).attr("data-id");
         team["score"] = $("#score-" + team["id"]).val();
         team["players"] = [];
         $(this).find("li").each(function() {
-            player = {};
+            var player = {};
             player["id"] = $(this).attr("data-id");
             team["players"].push(player);
         });
@@ -65,20 +65,20 @@ function update() {
 
 $(document).ready(() => {
     $("button.btn-inc").on("click", function() {
-        id = $(this).attr("data-id");
-        score = $("#score-" + id).val();
+        var id = $(this).attr("data-id");
+        var score = $("#score-" + id).val();
         $("#score-" + id).val(+score + 1);
     });
 
     $("button.btn-dec").on("click", function() {
-        id = $(this).attr("data-id");
-        score = $("#score-" + id).val();
+        var id = $(this).attr("data-id");
+        var score = $("#score-" + id).val();
         if (+score > 0) $("#score-" + id).val(+score - 1);
     });
 
     $("button.btn-start").on("click", function() {
-        timer = $("#timer");
-        button = $(this);
+        var timer = $("#timer");
+        var button = $(this);
         button.prop('disabled', true);
 
         var time = 5 * 1000;

@@ -1,18 +1,18 @@
 $(document).ready(() => {
     $("#start-btn").on("click", function() {
 
-        game = {};
+        var game = {};
         game["id"] = 0;
         game["next"] = true;
         game["teams"] = [];
         for (i = 0; i < 4; i++) {
-            team = {};
+            var team = {};
             team["id"] = 0;
             team["name"] = $("#input-team-" + (i + 1)).val()
             team["score"] = 0;
             team["players"] = [];
             for (j = 0; j < 4; j++) {
-                player = {};
+                var player = {};
                 player["id"] = 0;
                 player["name"] = $("#input-player-" + (i + 1) + "-" + (j + 1)).val()
                 team["players"].push(player);

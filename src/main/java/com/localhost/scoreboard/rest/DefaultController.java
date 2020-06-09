@@ -1,7 +1,6 @@
 package com.localhost.scoreboard.rest;
 
 import com.localhost.scoreboard.model.Game;
-import com.localhost.scoreboard.model.Word;
 import com.localhost.scoreboard.service.GameService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 
 @Controller
