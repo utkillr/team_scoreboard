@@ -1,4 +1,6 @@
-$("#start-btn").on("click", function() {
+$(document).ready(() => {
+    $("#start-btn").on("click", function() {
+
         game = {};
         game["id"] = 0;
         game["next"] = true;
