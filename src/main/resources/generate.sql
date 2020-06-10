@@ -2,8 +2,8 @@ CREATE TABLE "game" (
 	"id" serial NOT NULL,
 	"start_date" TIMESTAMP,
 	"end_date" TIMESTAMP,
+	"act_date" TIMESTAMP,
 	"current_team_id" INT,
-	"running" BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT game_pk PRIMARY KEY ("id")
 ) WITH (
     OIDS=FALSE
@@ -43,6 +43,15 @@ CREATE TABLE "word_used" (
 	"game_id" int NOT NULL,
 	"word_id" int NOT NULL,
 	CONSTRAINT word_used_pk PRIMARY KEY ("game_id", "word_id")
+) WITH (
+    OIDS=FALSE
+);
+
+CREATE TABLE "admin" (
+    "id" serial NOT NULL,
+    "login" TEXT NOT NULL UNIQUE,
+    "pwd_hash" TEXT NOT NULL,
+    CONSTRAINT admin_pk PRIMARY KEY ("id")
 ) WITH (
     OIDS=FALSE
 );

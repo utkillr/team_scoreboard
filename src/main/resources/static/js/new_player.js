@@ -1,8 +1,8 @@
 
 $(document).ready(() => {
     $("#login-btn").on("click", function() {
-        gameId = $("#game").attr("data-id");
-        player = {};
+        var gameId = $("#game").attr("data-id");
+        var player = {};
         player["name"] = $("#input-player").val();
         player["hash"] = "";
 

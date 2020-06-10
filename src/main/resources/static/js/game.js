@@ -1,4 +1,6 @@
 
+var POLLING_PERIOD = 2000;
+
 function showWords() {
     $.ajax({
         method: "GET",
@@ -21,9 +23,6 @@ function showWords() {
                 li.prop("hidden", false);
                 li.appendTo(ul);
             }
-            if (isAdmin($("#game").attr("data-id"))) {
-                $("#submit-btn").removeAttr("hidden");
-            }
         },
         error: function() {
             // alert("Can't get words");
@@ -34,8 +33,38 @@ function showWords() {
 
 function hideWords() {
     $("#words").prop("hidden", true);
-    $("#submit-btn").prop("hidden", true);
     $("#words ul").html("");
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function runTimer(delay) {
+    var timer = $("#timer");
+    var time = 5 * 1000;
+    await sleep(delay);
+    if (timer.val() != "00:00:00") return;
+    var x = setInterval(function() {
+        var m = Math.floor(time / (1000 * 60));
+        var s = Math.floor((time % (1000 * 60)) / 1000);
+        var ms = Math.floor((time % 1000) / 10);
+
+        if (('' + m).length == 1) m = '0' + m;
+        if (('' + s).length == 1) s = '0' + s;
+        if (('' + ms).length == 1) ms = '0' + ms;
+
+        timer.val(m + ":" + s + ":" + ms);
+
+        time -= 123
+
+        // If the count down is finished, write some text
+        if (time < 0) {
+            clearInterval(x);
+            timer.val("00:00:00");
+        }
+    }, 123);
+    return x;
 }
 
 function reload() {
@@ -43,8 +72,16 @@ function reload() {
         method: "GET",
         url: 'api/game/' + $("#game").attr("data-id"),
         success: function(game) {
-            admin = isAdmin();
+
+            // Sync timer
+            console.log("Game diff is " + game["diff"]);
+            if ((game["diff"] != null) && (game["diff"] > 0) && (game["diff"] < POLLING_PERIOD)) {
+                runTimer(game["diff"]);
+            }
+
             current = isCurrentAndRunning(game["id"], true);
+            if (current) admin = false;
+            else admin = isAdmin(game["id"]);
 
             if (admin) {
                 if ($("#words ul").children().length == 0) showWords();
@@ -72,7 +109,7 @@ function reload() {
                     }
                 }
             }
-            setCurrent($("#game").attr("data-id"));
+            setCurrent(game["id"]);
         },
         error: function() {
             alert("Can't get game results");
@@ -133,42 +170,31 @@ function setCurrent(game) {
     }
 }
 
+function activate(game) {
+    $.ajax({
+        method: "PATCH",
+        url: 'api/game/' + game + "/activate?hash=" + getCookie("hash"),
+        headers: {
+            'Content-Type': "application/json"
+        },
+        error: function() {
+            alert("Can't activate game");
+        }
+    });
+}
+
 $(document).ready(() => {
-
     setCurrent($("#game").attr("data-id"));
-
-    setInterval(reload, 3000);
-
-    $("button.btn-inc").on("click", function() {
-        id = $(this).attr("data-id");
-        score = $("#score-" + id).val();
-        $("#score-" + id).val(+score + 1);
-    });
-
-    $("button.btn-dec").on("click", function() {
-        id = $(this).attr("data-id");
-        score = $("#score-" + id).val();
-        if (+score > 0) $("#score-" + id).val(+score - 1);
-    });
+    reload()
+    setInterval(reload, POLLING_PERIOD);
 
     $("button.btn-start").on("click", function() {
-        timer = $("#timer");
-        button = $(this);
+        var button = $(this);
         button.prop('disabled', true);
 
-        var time = 5 * 1000;
         var prepare = 3;
 
-        $.ajax({
-            method: "PATCH",
-            url: 'api/game/' + $("#game").attr("data-id") + "/activate?hash=" + getCookie("hash"),
-            headers: {
-                'Content-Type': "application/json"
-            },
-            error: function() {
-                alert("Can't activate game");
-            }
-        });
+        activate($("#game").attr("data-id"));
 
         var y = setInterval(function() {
             button.text(prepare);
@@ -178,47 +204,5 @@ $(document).ready(() => {
                 button.text("GO!")
             }
         }, 1000);
-
-        var x = setInterval(function() {
-            if (prepare < 0) {
-                var m = Math.floor(time / (1000 * 60));
-                var s = Math.floor((time % (1000 * 60)) / 1000);
-                var ms = Math.floor((time % 1000) / 10);
-
-                if (('' + m).length == 1) m = '0' + m;
-                if (('' + s).length == 1) s = '0' + s;
-                if (('' + ms).length == 1) ms = '0' + ms;
-
-                timer.val(m + ":" + s + ":" + ms);
-
-                time -= 123
-
-                // If the count down is finished, write some text
-                if (time < 0) {
-                    clearInterval(x);
-                    // hideWords();
-                    timer.val("00:00:00");
-                }
-            }
-        }, 123);
-    });
-
-    $("button.btn-submit").on("click", function() {
-        $.ajax({
-            method: "PATCH",
-            url: 'api/game/' + $("#game").attr("data-id") + "/deactivate?hash=" + getCookie("hash"),
-            headers: {
-                'Content-Type': "application/json"
-            },
-            async: false,
-            success: function() {
-                useWords();
-                update();
-                hideWords();
-            },
-            error: function() {
-                alert("Can't deactivate game");
-            }
-        });
     });
 })

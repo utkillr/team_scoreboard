@@ -1,9 +1,8 @@
 package com.localhost.scoreboard.rest;
 
 import com.localhost.scoreboard.model.*;
-import com.localhost.scoreboard.service.GameService;
-import com.localhost.scoreboard.service.PlayerService;
-import com.localhost.scoreboard.util.AdminUtilities;
+import com.localhost.scoreboard.service.AdminService;
+import com.localhost.scoreboard.util.HashUtilities;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,29 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 public class DefaultController {
 
-    private GameService gameService;
-    private PlayerService playerService;
+    private AdminService adminService;
     private GameController gameController;
-    private WordController wordController;
 
     @Autowired
-    public void setGameService(GameService gameService) {
-        this.gameService = gameService;
-    }
-
-    @Autowired
-    public void setPlayerService(PlayerService playerService) {
-        this.playerService = playerService;
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @Autowired
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
-    }
-
-    @Autowired
-    public void setWordController(WordController wordController) {
-        this.wordController = wordController;
     }
 
     @GetMapping(value = {"", "/"})
@@ -51,8 +38,8 @@ public class DefaultController {
     @ResponseStatus(value = HttpStatus.OK)
     public String getGame(Model model, @PathVariable(name = "id") Integer gameId, @RequestParam(name = "hash", required = false) String hash) throws NotFoundException {
         Game game = gameController.getGame(gameId);
-        Boolean admin = false;
-        if (AdminUtilities.isAdmin(hash)) admin = true;
+        boolean admin = false;
+        if (adminService.isAdmin(hash)) admin = true;
         model.addAttribute("game", game);
         model.addAttribute("admin", admin);
         if (game.getStartDate() != null) {
@@ -71,14 +58,9 @@ public class DefaultController {
         return "new_player";
     }
 
-    @GetMapping(value = {"game/{id}/words", "game/{id}/words/"})
+    @GetMapping(value = {"login", "login/"})
     @ResponseStatus(value = HttpStatus.OK)
-    public String getWords(Model model, @PathVariable(name = "id") Integer gameId) throws NotFoundException {
-        Game game = gameService.findById(gameId);
-        if (game == null) {
-            throw new NotFoundException("Can't find the game with id = " + gameId);
-        }
-        model.addAttribute("game", game);
-        return "words";
+    public String login(Model model) {
+        return "login";
     }
 }

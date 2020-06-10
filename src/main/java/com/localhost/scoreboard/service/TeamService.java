@@ -1,7 +1,6 @@
 package com.localhost.scoreboard.service;
 
 import com.localhost.scoreboard.model.*;
-import com.localhost.scoreboard.repository.PlayerRepository;
 import com.localhost.scoreboard.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +13,11 @@ import java.util.List;
 public class TeamService {
 
     private TeamRepository teamRepository;
-    private PlayerRepository playerRepository;
     private PlayerService playerService;
 
     @Autowired
     public void setTeamRepository(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
-    }
-
-    @Autowired
-    public void setPlayerRepository(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
     }
 
     @Autowired
@@ -40,39 +33,7 @@ public class TeamService {
         return teamRepository.findById(id);
     }
 
-    public Team create(TeamDAO teamDAO, Game game) {
-        if (!notEmpty(teamDAO)) return null;
-        Team team = new Team();
-        team.setName(teamDAO.getName());
-        team.setScore(0);
-        team.setGame(game);
-        team.setPlayers(new ArrayList<>());
-
-        team = teamRepository.save(team);
-        for (PlayerDAO playerDAO : teamDAO.getPlayers()) {
-            Player player = playerService.create(playerDAO, team);
-            if (player != null) team.getPlayers().add(player);
-        }
-
-        return teamRepository.save(team);
-    }
-
-    public boolean notEmpty(TeamDAO teamDAO) {
-        for (PlayerDAO playerDAO : teamDAO.getPlayers()) {
-            if (playerService.notEmpty(playerDAO)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Team update(Team team, TeamDAO teamDAO) {
-        System.out.println("Updating team " + team.getId());
-        System.out.println("Old name: " + team.getName());
-        System.out.println("New name: " + teamDAO.getName());
-        if (teamDAO.getName() != null && !teamDAO.getName().isEmpty()) {
-            team.setName(teamDAO.getName());
-        }
         team.setScore(teamDAO.getScore());
         for (Player player : team.getPlayers()) {
             for (PlayerDAO playerDAO : teamDAO.getPlayers()) {
@@ -86,7 +47,7 @@ public class TeamService {
 
     public Team save(Team team) {
         for (Player player : team.getPlayers()) {
-            playerRepository.save(player);
+            playerService.save(player);
         }
         return teamRepository.save(team);
     }

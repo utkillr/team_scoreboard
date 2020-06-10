@@ -28,24 +28,35 @@ public class Game {
     private int id;
 
     @Column(
-            name = "startDate"
+            name = "start_date"
     )
     @JsonProperty("startDate")
     @JsonSerialize(using = TimestampSerializer.class)
     private Timestamp startDate;
 
     @Column(
-            name = "endDate"
+            name = "end_date"
     )
     @JsonProperty("endDate")
     @JsonSerialize(using = TimestampSerializer.class)
     private Timestamp endDate;
 
     @Column(
-            name = "running"
+            name = "act_date"
     )
+    @JsonProperty("actDate")
+    @JsonSerialize(using = TimestampSerializer.class)
+    private Timestamp actDate;
+
+    @JsonProperty("diff")
+    public Long getDiff() {
+        return actDate == null ? -1 : actDate.getTime() - System.currentTimeMillis() + PREPARE_TIME;
+    }
+
     @JsonProperty("running")
-    private Boolean running;
+    public Boolean isRunning() {
+        return actDate != null;
+    }
 
     @OneToMany(
             mappedBy = "game",
@@ -103,7 +114,7 @@ public class Game {
 
     @JsonProperty("isActive")
     public boolean isActive() {
-        return endDate == null ||  endDate.compareTo(new Timestamp(System.currentTimeMillis())) >= 0;
+        return startDate != null && (endDate == null || endDate.compareTo(new Timestamp(System.currentTimeMillis())) >= 0);
     }
 
     public String serializedStartDate() {
@@ -113,4 +124,6 @@ public class Game {
     public String serializedEndDate() {
         return TimestampSerializer.format(endDate);
     }
+
+    private static int PREPARE_TIME = 3 * 1000;
 }

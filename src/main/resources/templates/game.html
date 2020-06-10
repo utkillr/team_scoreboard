@@ -3,24 +3,27 @@
 <head>
     <title>Scoreboard</title>
     <th:block th:replace="common_header"></th:block>
-    <script th:src="@{js/words.js}"></script>
+    <script th:if="${admin} == true" th:src="@{js/words.js}"></script>
     <script th:src="@{js/game.js}"></script>
+    <script th:if="${admin} == true" th:src="@{js/game_admin.js}"></script>
 </head>
 <body>
     <section>
         <div class="container" style="margin-top:15px" id="game" th:data-id="${game.id}">
-            <th:block th:if="${count == 2}">
-                <th:block th:replace="team_fragment :: two_teams_fragment(game=${game})"></th:block>
-                <th:block th:replace="score_fragment :: two_teams_score_fragment(game=${game}, admin=${admin})"></th:block>
-            </th:block>
-            <th:block th:if="${count == 3}">
-                <th:block th:replace="team_fragment :: three_teams_fragment(game=${game})"></th:block>
-                <th:block th:replace="score_fragment :: three_teams_score_fragment(game=${game}, admin=${admin})"></th:block>
-            </th:block>
-            <th:block th:if="${count == 4}">
-                <th:block th:replace="team_fragment :: four_teams_fragment(game=${game})"></th:block>
-                <th:block th:replace="score_fragment :: four_teams_score_fragment(game=${game}, admin=${admin})"></th:block>
-            </th:block>
+            <div class="row">
+                <div th:if="${#lists.size(game.teams) == 2}" class="col-md-2"></div>
+                <th:block th:each="team, iter: ${game.teams}">
+                    <th:block th:replace="team_fragment :: team_fragment(team=${team}, count=${#lists.size(game.teams)}, admin=${admin})"></th:block>
+                </th:block>
+                <div th:if="${#lists.size(game.teams) == 2}" class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div th:if="${#lists.size(game.teams) == 2}" class="col-md-2"></div>
+                <th:block th:each="team, iter: ${game.teams}">
+                    <th:block th:replace="score_fragment :: score_fragment(team=${team}, count=${#lists.size(game.teams)}, admin=${admin})"></th:block>
+                </th:block>
+                <div th:if="${#lists.size(game.teams) == 2}" class="col-md-2"></div>
+            </div>
 
             <th:block th:replace="timer_fragment :: timer_fragment"></th:block>
 
@@ -28,25 +31,18 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="card text-center word-card" id="words" th:data-id="${game.id}" hidden>
-                        <ul class="list-group list-group-flush" id="words-container">
-                        </ul>
+                        <ul class="list-group list-group-flush" id="words-container"></ul>
                         <button th:if="${admin} == true" type="button" class="btn btn-primary btn-lg btn-block btn-submit" id="submit-btn">Submit</button>
                     </div>
                 </div>
                 <div class="col-md-3"></div>
             </div>
-
-            <!--
-            <div class="row">
-                <small>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></small>
-            </div>
-            -->
         </div>
 
         <li class="list-group-item" hidden id="template">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="word-{{id}}" data-id="{{id}}">
-                <label class="form-check-label" for="word-{{id}}">{{word}}</label>
+                <input type="checkbox" class="form-check-input">
+                <label class="form-check-label"></label>
             </div>
         </li>
     </section>

@@ -7,12 +7,11 @@ import lombok.Data;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
-@Table(name = "word")
-public class Word {
+@Table(name = "admin")
+public class Admin {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +19,16 @@ public class Word {
     @JsonProperty("id")
     private int id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "word_used",
-            joinColumns = { @JoinColumn(name = "word_id") },
-            inverseJoinColumns = { @JoinColumn(name = "game_id") }
+    @Column(
+            name = "login",
+            unique = true
     )
     @JsonIgnore
-    private List<Game> usedInGames;
+    private String login;
 
     @Column(
-            name = "word"
+            name = "pwd_hash"
     )
-    @JsonProperty("word")
-    private String word;
+    @JsonIgnore
+    private String pwdHash;
 }

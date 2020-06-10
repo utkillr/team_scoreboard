@@ -1,7 +1,8 @@
 
 function useWords() {
-    game = $("#words").attr("data-id");
-    words = [];
+    var game = $("#words").attr("data-id");
+    var words = [];
+    var done;
     $("#words").find("input").each(function() {
         done = $(this).prop("checked");
         if (done) words.push({

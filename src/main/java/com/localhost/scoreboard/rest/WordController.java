@@ -3,16 +3,16 @@ package com.localhost.scoreboard.rest;
 import com.localhost.scoreboard.model.Game;
 import com.localhost.scoreboard.model.Word;
 import com.localhost.scoreboard.model.WordUsedDAO;
+import com.localhost.scoreboard.service.AdminService;
 import com.localhost.scoreboard.service.GameService;
+import com.localhost.scoreboard.service.PlayerService;
 import com.localhost.scoreboard.service.WordService;
-import com.localhost.scoreboard.util.AdminUtilities;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +20,15 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/word")
 public class WordController {
 
+    private AdminService adminService;
     private WordService wordService;
     private GameService gameService;
+    private PlayerService playerService;
+
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Autowired
     public void setWordService(WordService wordService) {
@@ -31,6 +38,11 @@ public class WordController {
     @Autowired
     public void setGameService(GameService gameService) {
         this.gameService = gameService;
+    }
+
+    @Autowired
+    public void setPlayerService(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     @GetMapping(value = {"/{id}", "/{id}/"})
@@ -50,7 +62,7 @@ public class WordController {
         if (game == null) {
             throw new NotFoundException("Can't find the game with id = " + gameId);
         }
-        if (AdminUtilities.isCurrent(game, hash) && game.getRunning() || AdminUtilities.isAdmin(hash)) {
+        if (playerService.isCurrent(game, hash) && game.isRunning() || adminService.isAdmin(hash)) {
             if (wordService.getCurrentWords(game) == null || wordService.getCurrentWords(game).isEmpty()) {
                 wordService.initCurrentWords(game);
             }
@@ -62,11 +74,9 @@ public class WordController {
     @PatchMapping(value = {"", "/"})
     @ResponseStatus(value = HttpStatus.OK)
     public void useWords(@RequestBody List<WordUsedDAO> wordUsedDAOs, @RequestParam(name = "hash", required = false) String hash) throws NotFoundException, IllegalArgumentException {
-        if (!AdminUtilities.isAdmin(hash)) return;
+        if (!adminService.isAdmin(hash)) return;
 
         if (wordUsedDAOs == null || wordUsedDAOs.isEmpty()) {
-            System.out.println("Words are null? " + (wordUsedDAOs == null));
-            System.out.println("Words are empty? " + (wordUsedDAOs == null ? "N/A" : wordUsedDAOs.isEmpty()));
             return;
         }
 

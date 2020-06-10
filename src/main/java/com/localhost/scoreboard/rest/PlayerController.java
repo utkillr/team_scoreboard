@@ -1,10 +1,10 @@
 package com.localhost.scoreboard.rest;
 
 import com.localhost.scoreboard.model.*;
+import com.localhost.scoreboard.service.AdminService;
 import com.localhost.scoreboard.service.GameService;
 import com.localhost.scoreboard.service.PlayerService;
 import com.localhost.scoreboard.service.TeamService;
-import com.localhost.scoreboard.util.AdminUtilities;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/api/player")
 public class PlayerController {
+
+    private AdminService adminService;
     private PlayerService playerService;
     private TeamService teamService;
     private GameService gameService;
+
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Autowired
     public void setPlayerService(PlayerService playerService) {
@@ -26,13 +33,13 @@ public class PlayerController {
     }
 
     @Autowired
-    public void setGameService(GameService gameService) {
-        this.gameService = gameService;
+    public void setTeamService(TeamService teamService) {
+        this.teamService = teamService;
     }
 
     @Autowired
-    public void setTeamService(TeamService teamService) {
-        this.teamService = teamService;
+    public void setGameService(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @GetMapping(value = {"", "/"})
@@ -65,13 +72,13 @@ public class PlayerController {
         if (game == null) {
             throw new NotFoundException("Can't find the game with id = " + gameId);
         }
-        return AdminUtilities.isCurrent(game, hash) && (running == null || running.equals(game.getRunning()));
+        return playerService.isCurrent(game, hash) && (running == null || running.equals(game.isRunning()));
     }
 
     @GetMapping(value = {"/{hash}/admin", "/{hash}/admin/"})
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Boolean isAdmin(@PathVariable(name = "hash") String hash) throws NotFoundException {
-        return AdminUtilities.isAdmin(hash);
+        return adminService.isAdmin(hash);
     }
 
     @GetMapping(value = {"/{hash}/id", "/{hash}/id/"})
