@@ -81,7 +81,7 @@ $(document).ready(() => {
         var button = $(this);
         button.prop('disabled', true);
 
-        var time = 5 * 1000;
+        var time = 60 * 1000;
         var prepare = 3;
 
         var y = setInterval(function() {
@@ -118,3 +118,9 @@ $(document).ready(() => {
         }, 123);
     });
 })
+
+
+// Timer побольше
+// Мьютить всех кроме тех кто играет
+// Правила под игрой
+// Звуковой эффект по истечению таймера

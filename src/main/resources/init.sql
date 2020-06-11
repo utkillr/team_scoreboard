@@ -1,3 +1,4 @@
 DROP DATABASE IF EXISTS scoreboard;
 
-CREATE DATABASE scoreboard;
+CREATE DATABASE scoreboard
+ENCODING 'UTF-8';

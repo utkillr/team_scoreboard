@@ -14,6 +14,7 @@ public class GameService {
 
     private GameRepository gameRepository;
     private TeamService teamService;
+    private WordService wordService;
 
     @Autowired
     public void setGameRepository(GameRepository gameRepository) {
@@ -25,6 +26,11 @@ public class GameService {
         this.teamService = teamService;
     }
 
+    @Autowired
+    public void setWordService(WordService wordService) {
+        this.wordService = wordService;
+    }
+
     public List<Game> findAll() {
         return gameRepository.findAll();
     }
@@ -34,6 +40,7 @@ public class GameService {
     }
 
     public Game create(GameDAO gameDAO) {
+        wordService.initWords();
         if (!notEmpty(gameDAO)) return null;
         Game game = new Game();
         game = gameRepository.save(game);
