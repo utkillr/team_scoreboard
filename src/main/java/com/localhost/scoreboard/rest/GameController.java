@@ -77,6 +77,7 @@ public class GameController {
     @PostMapping(value = {"init", "init/"})
     @ResponseStatus(value = HttpStatus.OK)
     public int initGame(@RequestParam (name = "hash", required = false) String hash) throws NotFoundException {
+        wordService.initWords();
         if (!adminService.isAdmin(hash)) return 0;
         Game game = new Game();
         gameService.save(game);
