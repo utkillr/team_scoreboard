@@ -5,7 +5,6 @@ import com.localhost.scoreboard.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,6 +33,9 @@ public class TeamService {
     }
 
     public Team update(Team team, TeamDAO teamDAO) {
+        if (teamDAO.getName() != null && !teamDAO.getName().isEmpty()) {
+            team.setName(teamDAO.getName());
+        }
         team.setScore(teamDAO.getScore());
         for (Player player : team.getPlayers()) {
             for (PlayerDAO playerDAO : teamDAO.getPlayers()) {

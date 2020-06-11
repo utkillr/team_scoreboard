@@ -74,7 +74,6 @@ function reload() {
         success: function(game) {
 
             // Sync timer
-            console.log("Game diff is " + game["diff"]);
             if ((game["diff"] != null) && (game["diff"] > 0) && (game["diff"] < POLLING_PERIOD)) {
                 runTimer(game["diff"]);
             }
@@ -190,9 +189,10 @@ $(document).ready(() => {
 
     $("button.btn-start").on("click", function() {
         var button = $(this);
-        button.prop('disabled', true);
-
         var prepare = 3;
+        button.prop('disabled', true);
+        button.text(prepare);
+        prepare -= 1;
 
         activate($("#game").attr("data-id"));
 
