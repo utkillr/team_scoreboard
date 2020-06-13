@@ -42,7 +42,7 @@ function sleep(ms) {
 
 async function runTimer(delay) {
     var timer = $("#timer");
-    var time = 5 * 1000;
+    var time = 60 * 1000;
     await sleep(delay);
     if (timer.val() != "00:00:00") return;
     var x = setInterval(function() {
