@@ -2,11 +2,11 @@
     <div th:classappend="${count == 4} ? 'col-md-3' : 'col-md-4'">
         <div class="input-group mb-3 top-15-px" th:id="'scoreboard-' + ${team.id}" th:data-id="${team.id}">
             <div class="input-group-prepend">
-                <button class="btn btn-danger btn-dec" type="button" th:id="'score-dec-' + ${team.id}" th:data-id="${team.id}">-1</button>
+                <button class="btn btn-danger btn-dec score" type="button" th:id="'score-dec-' + ${team.id}" th:data-id="${team.id}">-1</button>
             </div>
             <input type="text" class="form-control score" placeholder="" disabled th:value="${team.score}" th:id="'score-' + ${team.id}">
             <div class="input-group-append">
-                <button class="btn btn-success btn-inc" type="button" th:id="'score-inc-' + ${team.id}" th:data-id="${team.id}">+1</button>
+                <button class="btn btn-success btn-inc score" type="button" th:id="'score-inc-' + ${team.id}" th:data-id="${team.id}">+1</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,22 @@
+<th:block th:fragment="rules_fragment">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Правила</h5>
+                    <p class="card-text">
+                        <strong style="color: red;">Нельзя</strong> объяснять слова через:
+                        <ul>
+                            <li><strong>Перевод</strong> слова ('машина' через 'car')</li>
+                            <li><strong>Однокоренные</strong> слова ('программист' через 'пишет программу')</li>
+                            <li><strong>Созвучные</strong> слова ('слава' через 'звучит как клава')</li>
+                        </ul>
+                        При нарушении правила слово пропускается.<br>
+                        За каждое отгаданное слово команда получает <strong>+1</strong> очко, а за каждый пропуск (в т.ч. нарушение) - <strong>-1</strong> очко<br>
+                        Пока идет время, все, кроме ведущего, молчат. Однако, после остановки таймера все игроки могут бороться за последнее слово.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
